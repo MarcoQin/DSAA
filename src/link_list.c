@@ -42,6 +42,21 @@ void delete(ElementType x, List L) {
     }
 }
 
+void make_empty(List L) {
+    Node node, tmp_cell;
+    node = L->next;
+    L->next = NULL;
+    while (node != NULL) {
+        tmp_cell = node->next;
+        debug("node != NULL %d", node->element);
+        free(node);
+        debug("free node");
+        node = tmp_cell;
+        debug("node = tmp_cell");
+    }
+    debug("success Free all nodes");
+}
+
 void insert(ElementType x, List L, Node position) {
     Node tmp_cell;
     tmp_cell = malloc(sizeof(struct _Node));
@@ -55,17 +70,6 @@ void insert(ElementType x, List L, Node position) {
 }
 
 void delete_list(List L) {
-    Node node, tmp_cell;
-    node = L->next;
-    L->next = NULL;
-    while (node != NULL) {
-        tmp_cell = node->next;
-        debug("node != NULL %d", node->element);
-        free(node);
-        debug("free node");
-        node = tmp_cell;
-        debug("node = tmp_cell");
-    }
-    debug("success Free all nodes");
+    make_empty(L);
     free(L);
 }

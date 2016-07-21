@@ -13,7 +13,7 @@ typedef struct _Node *List;
 typedef struct _Node *Node;
 
 List create_list();
-List make_empty(List L);
+void make_empty(List L);
 int is_empty(List L);
 int is_last(Node node);
 Node find(ElementType x, List L);
