@@ -7,7 +7,6 @@ typedef int ElementType;
 struct _Node {
     ElementType element;
     struct _Node *next;
-    struct _Node *previous;
 };
 
 typedef struct _Node *Node;
