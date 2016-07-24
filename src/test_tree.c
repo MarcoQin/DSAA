@@ -15,7 +15,8 @@ char *test_insert() {
     for (int i = 0; i < 14; i++) {
         T = insert(arr[i], T);
     }
-    print_tree(T, 0, 0);
+    /* print_tree(T, 0, 0); */
+    print_ascii_tree(T);
     return NULL;
 }
 

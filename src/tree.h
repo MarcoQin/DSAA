@@ -12,7 +12,7 @@ struct _TreeNode
 };
 
 typedef struct _TreeNode* TreeNode;
-typedef TreeNode Tree;
+typedef struct _TreeNode Tree;
 typedef TreeNode SearchTree;
 
 SearchTree make_empty(SearchTree T);
@@ -23,5 +23,6 @@ SearchTree insert(ElementType x, SearchTree T);
 SearchTree delete(ElementType x, SearchTree T);
 ElementType retrieve(TreeNode node);
 void print_tree(SearchTree T, int depth, int left);
+void print_ascii_tree(Tree * t);
 
 #endif /* ifndef __TREE_H */
