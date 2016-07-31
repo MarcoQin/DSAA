@@ -4,8 +4,7 @@
 #include <stdlib.h>
 
 typedef struct {
-    long me_hash;
-    void *key;
+    const char *key;
     void *value;
 } DictEntry;
 

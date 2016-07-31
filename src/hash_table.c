@@ -27,12 +27,12 @@ count_outer: ;
     }
 }
 
-struct DictObject * Dict_New (int table_size) {
-    struct DictObject *dict;
+DictObject * Dict_New (int table_size) {
+    DictObject *dict;
     int i;
     if (table_size < MIN_DICT_SIZE)
         table_size = MIN_DICT_SIZE;
-    dict = malloc(sizeof(struct _dictobject));
+    dict = malloc(sizeof(DictObject));
     check_mem(dict);
     dict->ma_size = next_prime(table_size);
     dict->ma_fill = 0;
@@ -45,7 +45,37 @@ struct DictObject * Dict_New (int table_size) {
         dict->ma_table[i].key = NULL;
         dict->ma_table[i].value = NULL;
     }
+    return dict;
 
 error:
     exit(1);
+}
+
+
+DictEntry * lookup(DictObject *d, const char *key) {
+    long i;
+    long size = d->ma_size;
+    i = hash(key, (int)size);
+    long collision = 0;
+    DictEntry *ep0 = d->ma_table;
+    DictEntry *ep;
+    DictEntry *freeslot;
+    ep = &ep0[i];
+    if (ep->key == NULL || ep->key == key) {
+        return ep;
+    }
+    if (ep->key == dummy) {
+        freeslot = ep;
+    }
+    for (int j = 0;j < size; j++) {
+        i += 2 * ++collision - 1;
+        ep = &ep0[i];
+        if (ep->key == NULL)
+            return freeslot == NULL ? ep : freeslot;
+        if (ep->key == key)
+            return ep;
+        if (ep->key == dummy && freeslot == NULL)
+            freeslot == ep;
+    }
+    return NULL;
 }
