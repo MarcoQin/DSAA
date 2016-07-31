@@ -1,6 +1,6 @@
 #include "hash_table.h"
 #include "dbg.h"
-#define MIN_DICT_SIZE = 10
+#define MIN_DICT_SIZE 10
 
 const char *dummy = "dummy";
 
@@ -41,7 +41,7 @@ DictObject * Dict_New (int table_size) {
     dict->ma_table = malloc(sizeof(DictObject) * dict->ma_size);
     check_mem(dict->ma_table);
 
-    for(i = 0; i < dict->table_size; i++) {
+    for(i = 0; i < dict->ma_size; i++) {
         dict->ma_table[i].key = NULL;
         dict->ma_table[i].value = NULL;
     }
@@ -75,12 +75,26 @@ DictEntry * lookup(DictObject *d, const char *key) {
         if (ep->key == key)
             return ep;
         if (ep->key == dummy && freeslot == NULL)
-            freeslot == ep;
+            freeslot = ep;
     }
     return NULL;
 }
 
-void dictresize(DictObject *d, long size) {
+int insert_dict(DictObject *d, const char *key, void *value);
+
+void dictresize(DictObject *d, int size) {
+    DictEntry *old_dict, *ep;
+    int i, old_size;
+    old_dict = d->ma_table;
+    old_size = d->ma_size;
+    d = Dict_New(size);
+    for (i = 0; i < old_size; i++) {
+        ep = &old_dict[i];
+        if (ep->key != NULL && ep->key != dummy) {
+            insert_dict(d, ep->key, ep->value);
+        }
+    }
+    free(old_dict);
 }
 
 int insert_dict_by_entry(DictObject *d, const char *key, DictEntry *ep, void *value) {
@@ -137,4 +151,11 @@ int dict_del_item(DictObject *d, const char *key) {
     ep->key = dummy;
     d->ma_used--;
     return 0;
+}
+
+void destroy_dict(DictObject *d) {
+    if (d == NULL)
+        return;
+    free(d->ma_table);
+    free(d);
 }
