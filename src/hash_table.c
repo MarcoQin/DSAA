@@ -138,15 +138,14 @@ void dict_set_item(DictObject *d, const char *key, void *value) {
 }
 
 
-int dict_del_item(DictObject *d, const char *key) {
+int dict_del_item(DictObject *d, const char *key, void **out) {
     DictEntry *ep;
-    void *old_value;
     ep = lookup(d, key);
     if (ep == NULL)
         return -1;
     if (ep->value == NULL)
         return -1;
-    old_value = ep->value;
+    *out = ep->value;
     ep->value = NULL;
     ep->key = dummy;
     d->ma_used--;

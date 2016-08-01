@@ -20,7 +20,7 @@ struct _dictobject {
 DictObject * Dict_New (int table_size);
 DictEntry * lookup(DictObject *d, const char *key);
 void dict_set_item(DictObject *d, const char *key, void *value);
-int dict_del_item(DictObject *d, const char *key);
+int dict_del_item(DictObject *d, const char *key, void **out);
 void destroy_dict(DictObject *d);
 
 #endif /* ifndef __HASH_TABLE_H */

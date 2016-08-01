@@ -27,6 +27,15 @@ char *test_find() {
     return NULL;
 }
 
+char *test_delete() {
+    const char *key = "name";
+    char *value;
+    int r = dict_del_item(dict, key, (void **)&value);
+    log_info("%s", value);
+    mu_assert(r == 0, "Delete error");
+    return NULL;
+}
+
 char *test_destory() {
     destroy_dict(dict);
     return NULL;
@@ -37,6 +46,7 @@ char *all_tests() {
     mu_run_test(test_create);
     mu_run_test(test_insert);
     mu_run_test(test_find);
+    mu_run_test(test_delete);
     mu_run_test(test_destory);
     return NULL;
 }
